@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-data/*
+# data/*
 
 # C extensions
 *.so
@@ -133,3 +133,8 @@ dmypy.json
 
 # macos
 .DS_Store
+
+# data
+data/raw/*
+data/processed/*
+!**/.keep
