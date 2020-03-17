@@ -141,4 +141,4 @@ data/processed/*
 !**/.keep
 
 # metadata
-.vscode/*
+.vscode
