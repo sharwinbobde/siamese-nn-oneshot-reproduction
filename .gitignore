@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+
 # data/*
 
 # C extensions
@@ -138,3 +139,6 @@ dmypy.json
 data/raw/*
 data/processed/*
 !**/.keep
+
+# metadata
+.vscode/*
