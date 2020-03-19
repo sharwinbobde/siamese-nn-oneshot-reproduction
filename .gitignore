@@ -143,3 +143,6 @@ data/processed/*
 
 # metadata
 .vscode
+
+# Pycharm
+.idea
