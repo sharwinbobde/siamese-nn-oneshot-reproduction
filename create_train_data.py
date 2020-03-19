@@ -44,7 +44,10 @@ def extract_data(path):
     test_alphabets = [a for a in alphs if a not in validation_alphabets]
 
     print(f"Alphabets to train on ({len(train_alphabets)}): ", train_alphabets)
-    print(f"Alphabets to validate on ({len(validation_alphabets)}): ", validation_alphabets)
+    print(
+        f"Alphabets to validate on ({len(validation_alphabets)}): ",
+        validation_alphabets,
+    )
     print(f"Alphabets to test on ({len(test_alphabets)}): ", test_alphabets)
 
     alphabet_groups = [train_alphabets, validation_alphabets, test_alphabets]
@@ -53,7 +56,7 @@ def extract_data(path):
 
     # Get the appropriate images for each alphabet
     for i, group in enumerate(alphabet_groups):
-        print(f'{i}: {len(group)} --> {group}')
+        print(f"{i}: {len(group)} --> {group}")
         final_results.append([])
         alphabet_list = []
         for alphabet_path in group:
@@ -148,9 +151,9 @@ if __name__ == "__main__":
         sys.exit()
 
     # Check to delete the file before starting
-    if os.path.exists(f'data/processed/trainX_{int(size)}k.npy'):
+    if os.path.exists(f"data/processed/trainX_{int(size)}k.npy"):
         print("Removing old files")
-        os.remove(f'data/processed/trainX_{int(size)}k.npy')
+        os.remove(f"data/processed/trainX_{int(size)}k.npy")
         os.remove(f"data/processed/trainY_{int(size)}k.npy")
 
     num_alphabets = len(alphabet_list)
@@ -172,7 +175,6 @@ if __name__ == "__main__":
 
             num_letters, num_drawings, _, _ = alphabet.shape
 
-
             x1_alphabet = i
             # randomly draw `n_samples` samples
             x1_letters = np.random.choice(num_letters, size=n_samples)
@@ -182,20 +184,48 @@ if __name__ == "__main__":
             for l, d in zip(x1_letters, x1_drawers):
                 x1_images.append(alphabet[l, d])
 
-            # choose randomly 1000 alphabet indexes
-            x2_alphabets = np.random.choice([i] * (num_alphabets - 1) +
-                                            alphabet_indexes[:i] + alphabet_indexes[i + 1:], size=n_samples)
+            x2_alphabets = []
             x2_letters = []
             x2_drawers = []
             x2_images = []
-            # For each of those alphabets, choose a specific letter
+
+            # make sure half samples have same letter
+            # i.e. same alphabet, may or may not have same drawing.
+            # for other half, make sure sample has different letter.
             # we need to be careful cause not all alphabets have the same number of letters
-            for index in x2_alphabets:
-                # Number of letters
-                n_letters = alphabet_list[index].shape[0]
-                x2_letters.append(np.random.choice(range(n_letters)))
+
+            # first half, same letter
+            for index in range(n_samples // 2):
+                # same alphabet
+                x2_alphabets.append(i)
+                # same
+                x2_letters.append(x1_letters[index])
                 x2_drawers.append(np.random.choice(range(num_drawings)))
-                x2_images.append(alphabet_list[index][x2_letters[-1]][x2_drawers[-1]])
+                x2_images.append(alphabet_list[i][x2_letters[-1]][x2_drawers[-1]])
+            # second half, different letter
+            for index in range(n_samples // 2, n_samples):
+                # choose a random alphabet
+                x2_alphabet_index = np.random.choice(range(num_alphabets))
+                x2_alphabets.append(x2_alphabet_index)
+
+                # get number of letters in alphabet
+                n_letters = alphabet_list[x2_alphabet_index].shape[0]
+
+                # if x2 alphabet is same as x1
+                if x2_alphabet_index == i:
+                    # make sure that letter is different
+                    x2_letter_index = (
+                        x1_letters[index] + np.random.randint(1, n_letters)
+                    ) % n_letters
+                    x2_letters.append(x2_letter_index)
+                # if x2 alphabet is different to x1
+                else:
+                    # pick a random letter from the alphabet
+                    x2_letters.append(np.random.choice(range(n_letters)))
+                x2_drawers.append(np.random.choice(range(num_drawings)))
+                x2_images.append(
+                    alphabet_list[x2_alphabet_index][x2_letters[-1]][x2_drawers[-1]]
+                )
 
             # Create the labels by comparing indexes
             _labels = []
@@ -234,22 +264,7 @@ if __name__ == "__main__":
         print(f"Alphabet {i}")
 
     # Save everything
-    with open(f'data/processed/trainX_{int(size)}k.npy', 'wb') as f:
+    with open(f"data/processed/trainX_{int(size)}k.npy", "wb") as f:
         np.save(f, dataset)
-    with open(f'data/processed/trainY_{int(size)}k.npy', 'wb') as f:
+    with open(f"data/processed/trainY_{int(size)}k.npy", "wb") as f:
         np.save(f, labels)
-
-    # example code to read npy files
-    # with open(f"data/processed/trainX_{int(size)}k.npy", "rb") as f:
-    #     fsz = os.fstat(f.fileno()).st_size
-    #     train_x = np.load(f)
-    #     while f.tell() < fsz:
-    #         train_x = np.vstack((train_x, np.load(f)))
-    #     print(train_x.shape)
-
-    # with open(f"data/processed/trainY_{int(size)}k.npy", "rb") as f:
-    #     fsz = os.fstat(f.fileno()).st_size
-    #     train_y = np.load(f)
-    #     while f.tell() < fsz:
-    #         train_y = np.vstack((train_y, np.load(f)))
-    #     print(train_y.shape)
