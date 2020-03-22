@@ -140,6 +140,7 @@ dmypy.json
 data/raw/*
 data/processed/*
 !**/.keep
+data/augmented/*
 
 # metadata
 .vscode

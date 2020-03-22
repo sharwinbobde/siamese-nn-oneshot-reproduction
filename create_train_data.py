@@ -161,12 +161,13 @@ if __name__ == "__main__":
 
     # Where we'll keep all the data
     dataset = None
+    labels = None
     # iterate through the images, alphabet wise
     for i, alphabet in enumerate(alphabet_list):
         # sample 1000 images at a time to prevent OOM
         n_samples = 1500
         final_res = None
-        labels = None
+        alph_lab = None
         for _ in range(int(samples_per_alphabet / n_samples)):
             # gc.collect()
 
@@ -190,11 +191,19 @@ if __name__ == "__main__":
             x2_images = []
             # For each of those alphabets, choose a specific letter
             # we need to be careful cause not all alphabets have the same number of letters
-            for index in x2_alphabets:
-                # Number of letters
-                n_letters = alphabet_list[index].shape[0]
-                x2_letters.append(np.random.choice(range(n_letters)))
-                x2_drawers.append(np.random.choice(range(num_drawings)))
+            for j, index in enumerate(x2_alphabets):
+                if index == x1_alphabet:
+                    # Choose the same image
+                    _image = x1_letters[j]
+                    _drawer = np.random.randint(num_drawings)
+                    x2_letters.append(_image)
+                    x2_drawers.append(_drawer)
+                    # Number of letters
+                else:
+                    # Choose a random letter
+                    n_letters = alphabet_list[index].shape[0]
+                    x2_letters.append(np.random.randint(n_letters))
+                    x2_drawers.append(np.random.randint(num_drawings))
                 x2_images.append(alphabet_list[index][x2_letters[-1]][x2_drawers[-1]])
 
             # Create the labels by comparing indexes
@@ -220,16 +229,18 @@ if __name__ == "__main__":
 
             if final_res is None:
                 final_res = pairs
-                labels = _labels
+                alph_lab = _labels
             else:
                 # Concatenate to add to the first axis
                 final_res = np.concatenate((final_res, pairs), axis=0)
-                labels = np.hstack((labels, _labels))
+                alph_lab = np.hstack((alph_lab, _labels))
 
         if dataset is None:
             dataset = final_res
+            labels = alph_lab
         else:
             dataset = np.concatenate((dataset, final_res), axis=0)
+            labels = np.hstack((labels, alph_lab))
         print(dataset.shape)
         print(f"Alphabet {i}")
 
