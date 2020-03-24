@@ -4,8 +4,6 @@ import sys
 import imageio
 import numpy as np
 import pickle
-import itertools
-import gc
 
 
 def extract_data(path):
@@ -164,12 +162,13 @@ if __name__ == "__main__":
 
     # Where we'll keep all the data
     dataset = None
+    labels = None
     # iterate through the images, alphabet wise
     for i, alphabet in enumerate(alphabet_list):
         # sample 1000 images at a time to prevent OOM
         n_samples = 1500
         final_res = None
-        labels = None
+        alph_lab = None
         for _ in range(int(samples_per_alphabet / n_samples)):
             # gc.collect()
 
@@ -250,16 +249,18 @@ if __name__ == "__main__":
 
             if final_res is None:
                 final_res = pairs
-                labels = _labels
+                alph_lab = _labels
             else:
                 # Concatenate to add to the first axis
                 final_res = np.concatenate((final_res, pairs), axis=0)
-                labels = np.hstack((labels, _labels))
+                alph_lab = np.hstack((alph_lab, _labels))
 
         if dataset is None:
             dataset = final_res
+            labels = alph_lab
         else:
             dataset = np.concatenate((dataset, final_res), axis=0)
+            labels = np.hstack((labels, alph_lab))
         print(dataset.shape)
         print(f"Alphabet {i}")
 
