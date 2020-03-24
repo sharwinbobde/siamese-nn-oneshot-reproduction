@@ -139,11 +139,11 @@ dmypy.json
 # data
 data/raw/*
 data/processed/*
-!**/.keep
 data/augmented/*
-
-# metadata
-.vscode
+!**/.keep
 
 # Pycharm
 .idea
+
+# metadata
+.vscode
