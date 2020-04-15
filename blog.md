@@ -5,6 +5,11 @@ mathjax: true
     {% include mathjax.html %}
 </header>
 
+### Authors
+- Diego Albo Martínez
+- Sharwin Bobde
+- Nikhil Saldanha
+
 # One-Shot Image Recognition Using Siamese Networks
 
 Conventionally, deep neural networks have been really good at learning from high dimensional data like images, audio, and video provided that there are huge amounts of labeled examples to learn from. Comparatively, humans are capable of what is called "one-shot learning". If you show a picture of a ball to a human who has never seen a football (soccer ball for Americans) before, they will probably be able to distinguish footballs from rugby balls, baseballs, basketballs, and so on with high accuracy.
