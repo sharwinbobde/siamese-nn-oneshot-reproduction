@@ -10,8 +10,8 @@ mathjax: true
 Conventionally, deep neural networks have been really good at learning from high dimensional data like images, audio, and video provided that there are huge amounts of labeled examples to learn from. Comparatively, humans are capable of what is called "one-shot learning". If you show a picture of a ball to a human who has never seen a football (soccer ball for Americans) before, they will probably be able to distinguish footballs from rugby balls, baseballs, basketballs, and so on with high accuracy.
 
 ![one shot learning](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/one_shot.png)
-> Figure depicting a one-shot image recognition task
-> _Taken from: Siamese Neural Networks for One-Shot Image Recognition._
+<small>Figure depicting a one-shot image recognition task
+_Taken from: Siamese Neural Networks for One-Shot Image Recognition._</small>
 
 Yet another one of the things humans can do that seemed trivial until we tried to make an algorithm do it.
 
@@ -42,15 +42,15 @@ In this case, instead of classifying an image to one of the many classes, we inp
 
 ![traditional_classification](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/traditional.png)
 
-> Traditional way of training a CNN to distinguish the class of an image
-> _Taken from [Oneshot Explanation](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)_
+<small>Traditional way of training a CNN to distinguish the class of an image
+_Taken from [Oneshot Explanation](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)_</small>
 
 Imagine you have a database with photos of university employees and you want to implement a face unlock functionality in some classrooms. Without one-shot classification you would need to gather hundreds of photos of each employee in order to train a classifier with as many classes as employees. With one-shot learning however, you just need one photo per employee, and two classes: same and different.
 
 ![traditional_classification](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/siamese.png)
 
-> In a siamese network we input two images at the same time and output a similarity score between 0 and 1
-> _Taken from [Oneshot Explanation](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)_
+<small>In a siamese network we input two images at the same time and output a similarity score between 0 and 1
+_Taken from [Oneshot Explanation](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)_</small>
 
 A straightforward approach would involve creating pairs of images from all the photos of the employees and label those depending on whether they portray the same person. After training, the outcome is a Siamese network capable of distinguishing similar from dissimilar objects, at a much lower cost of data gathering.
 
@@ -60,7 +60,7 @@ A straightforward approach would involve creating pairs of images from all the p
 ### 2.1 Why Siamese Networks?
 Koch et al.'s approach to one-shot classification is to give a network two images and train it to learn whether they belong to the same category. Then when doing a one-shot classification task described above, the network can compare the test image to each image in the support set, and picks which one it thinks is most likely to be of the same category.
 
-> So, intuitively we want a neural net that takes two images as input and outputs the probability they share the same class.
+So, intuitively we want a neural net that takes two images as input and outputs the probability they share the same class.
 
 Say $X_1$ and $X_2$ are two images in our dataset. If we define $X_1 \bigodot X_2$ to mean  "$X_1$ and $X_2$ are images with the same class", $X_1 \bigodot X_2$ is the same as $X_2 \bigodot X_1$. We therefore need a neural net whose output should be the same even if we reverse the order of the inputs
 
@@ -83,8 +83,8 @@ Koch et al uses a convolutional siamese network (CNN) to classify pairs of image
 ```
 
 ![image](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/siamese_net.png)
-> Deptiction of a Convolutional Siamese Net
-> _Taken from https://sorenbouma.github.io/blog/oneshot/_
+<small>Deptiction of a Convolutional Siamese Net
+_Taken from https://sorenbouma.github.io/blog/oneshot/_</small>
 
 Like in any modern basic CNN, the twin networks reduce their inputs down to smaller and smaller outputs. Final part of each twin is a fully  connected layer with 4096 units. The absolute difference (L1 distance) between the two vectors is used as input to a linear classifier.
 
@@ -102,8 +102,8 @@ For training the Siamese network to discern equal from different sets of images,
 
 <img src=https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/characters.png width="400"/>
 
-> Image showing an example of 8 alphabets of the dataset
-> _Taken from: "Siamese Neural Networks for One-shot Image Recognition"_
+<small>Image showing an example of 8 alphabets of the dataset
+_Taken from: "Siamese Neural Networks for One-shot Image Recognition"_</small>
 
 
 
@@ -192,16 +192,16 @@ The process we follow is different to the random sampling we did for the creatio
 
 <img src=https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/oneshot_test.png width="400"/>
 
-> Example of the oneshot task. We compare a reference image to a subset of images of which just one represents the same object but with some changes
-> _Taken from: "Siamese Neural Networks for One-shot Image Recognition"_
+<small>Example of the oneshot task. We compare a reference image to a subset of images of which just one represents the same object but with some changes
+_Taken from: "Siamese Neural Networks for One-shot Image Recognition"_</small>
 
 This way, we create a batch of N pairs of images, in which only 1 of those is made up of the same character, and the other N-1 are not. We then input these batches into the network and calculate from these which pair was the network more confident about, with this being the chosen class of the classification.
 
 <img src="https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/20-way-oneshot.png" width="400"/>
 
-> We perform 20 way oneshot classification just like in the paper, here is an example of a batch accompanying a certain image. 
-> We have to check that the `argmax` of the output vector corresponds to the `argmax` of the targets
-> _Taken from: "Siamese Neural Networks for One-shot Image Recognition"_
+<small>We perform 20 way oneshot classification just like in the paper, here is an example of a batch accompanying a certain image. 
+We have to check that the `argmax` of the output vector corresponds to the `argmax` of the targets
+_Taken from: "Siamese Neural Networks for One-shot Image Recognition"_</small>
 
 The accuracy is then 
 $$
@@ -238,8 +238,8 @@ Nevertheless in many of the cases the network classifies all of the pairs correc
 
 ![true](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/true.png)
 
-> An example of the network getting confused between multiple characters. The remaining 18 characters of the batch all ended up with confidences lower than 0.15, so there was just 1 false positive out of the 20 images in the batch
-> Here the network might focus more on the 2 closed circles of the character that the one at the top has in contrast to the sloppy drawing below, hence giving it a slight 0.01 higher confidence and resulting in a failed oneshot task
+<small>An example of the network getting confused between multiple characters. The remaining 18 characters of the batch all ended up with confidences lower than 0.15, so there was just 1 false positive out of the 20 images in the batch
+Here the network might focus more on the 2 closed circles of the character that the one at the top has in contrast to the sloppy drawing below, hence giving it a slight 0.01 higher confidence and resulting in a failed oneshot task</small>
 
 ## 5. Insights
 This section has a bunch of extra experiments that we conducted and interesting insights.
@@ -309,7 +309,7 @@ and then we observe the activations in the model:
 ![activation conv2](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/activation_conv2.png)
 ![activation conv3](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/activation_conv3.png)
 ![activation conv4](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/activation_conv4.png)
-> Top to Bottom: Visualized Activations of 1st to 4th Convolutional Layers
+<small>Top to Bottom: Visualized Activations of 1st to 4th Convolutional Layers</small>
 ---
 
 The first layer clearly focuses more on the edges of the alphabet, some focus on the horizontal edges, some vertical.
