@@ -56,7 +56,6 @@ A straightforward approach would involve creating pairs of images from all the p
 
 ## 2. Siamese Networks
 <img src=https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/si_and_am.png width="400"/>
-![si and am](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/si_and_am.png)
 
 ### 2.1 Why Siamese Networks?
 Koch et al.'s approach to one-shot classification is to give a network two images and train it to learn whether they belong to the same category. Then when doing a one-shot classification task described above, the network can compare the test image to each image in the support set, and picks which one it thinks is most likely to be of the same category.
@@ -102,7 +101,6 @@ In this section, we describe the setup required to reproduce the paper. You can 
 For training the Siamese network to discern equal from different sets of images, we make use of the Omniglot dataset[^omniglot]. This dataset consists of drawings of characters from 40 different alphabets, some of them real like Bengali, and some of them made up like the Futurama alphabet.
 
 <img src=https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/characters.png width="400"/>
-![oneshot_characters](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/characters.png)
 
 > Image showing an example of 8 alphabets of the dataset
 > _Taken from: "Siamese Neural Networks for One-shot Image Recognition"_
@@ -193,14 +191,12 @@ The process we follow is different to the random sampling we did for the creatio
 4. We create pairs of the image sampled in step 1 with all the others sampled in steps 2 and 3
 
 <img src=https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/oneshot_test.png width="400"/>
-![oneshot_batch_example](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/oneshot_test.png)
 
 > Example of the oneshot task. We compare a reference image to a subset of images of which just one represents the same object but with some changes
 > _Taken from: "Siamese Neural Networks for One-shot Image Recognition"_
 
 This way, we create a batch of N pairs of images, in which only 1 of those is made up of the same character, and the other N-1 are not. We then input these batches into the network and calculate from these which pair was the network more confident about, with this being the chosen class of the classification.
 
-![oneshot_batch](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/20-way-oneshot.png)
 <img src="https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/20-way-oneshot.png" width="400"/>
 
 > We perform 20 way oneshot classification just like in the paper, here is an example of a batch accompanying a certain image. 
