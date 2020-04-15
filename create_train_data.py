@@ -192,39 +192,43 @@ if __name__ == "__main__":
             # i.e. same alphabet, may or may not have same drawing.
             # for other half, make sure sample has different letter.
             # we need to be careful cause not all alphabets have the same number of letters
+            # choose randomly 1000 alphabet indexes
 
-            # first half, same letter
+            # First half of the examples will be the same
             for index in range(n_samples // 2):
-                # same alphabet
-                x2_alphabets.append(i)
-                # same
-                x2_letters.append(x1_letters[index])
-                x2_drawers.append(np.random.choice(range(num_drawings)))
-                x2_images.append(alphabet_list[i][x2_letters[-1]][x2_drawers[-1]])
-            # second half, different letter
+                _alphabet = x1_alphabet
+                _letter = x1_letters[index]
+                _drawing = np.random.randint(num_drawings)
+                x2_alphabets.append(_alphabet)
+                x2_letters.append(_letter)
+                x2_drawers.append(_drawing)
+                x2_images.append(alphabet_list[_alphabet][x2_letters[-1]][x2_drawers[-1]])
+            print("Finished adding same letters")
+
+            # Second half of the examples will be different
             for index in range(n_samples // 2, n_samples):
-                # choose a random alphabet
-                x2_alphabet_index = np.random.choice(range(num_alphabets))
-                x2_alphabets.append(x2_alphabet_index)
+                _alphabet = np.random.randint(num_alphabets)
+                x2_alphabets.append(_alphabet)
 
-                # get number of letters in alphabet
-                n_letters = alphabet_list[x2_alphabet_index].shape[0]
-
-                # if x2 alphabet is same as x1
-                if x2_alphabet_index == i:
-                    # make sure that letter is different
-                    x2_letter_index = (
-                        x1_letters[index] + np.random.randint(1, n_letters)
-                    ) % n_letters
-                    x2_letters.append(x2_letter_index)
-                # if x2 alphabet is different to x1
+                n_letters = alphabet_list[_alphabet].shape[0]
+                _letter = None
+                _drawing = None
+                # If it's the same alphabet choose a different letter
+                if _alphabet == x1_alphabet:
+                    _possible_letters = set(range(n_letters))
+                    _possible_letters.remove(x1_letters[index])
+                    _possible_letters = list(_possible_letters)
+                    _letter = np.random.choice(_possible_letters)
+                    _drawing = np.random.randint(num_drawings)
+                    x2_letters.append(_letter)
+                    x2_drawers.append(_drawing)
+                # If not choose whatever letter from that alphabet
                 else:
-                    # pick a random letter from the alphabet
-                    x2_letters.append(np.random.choice(range(n_letters)))
-                x2_drawers.append(np.random.choice(range(num_drawings)))
-                x2_images.append(
-                    alphabet_list[x2_alphabet_index][x2_letters[-1]][x2_drawers[-1]]
-                )
+                    _letter = np.random.randint(n_letters)
+                    _drawing = np.random.randint(num_drawings)
+                    x2_letters.append(_letter)
+                    x2_drawers.append(_drawing)
+                x2_images.append(alphabet_list[_alphabet][x2_letters[-1]][x2_drawers[-1]])
 
             # Create the labels by comparing indexes
             _labels = []
