@@ -1,9 +1,3 @@
----
-mathjax: true
----
-<header class="post-header">
-    {% include mathjax.html %}
-</header>
 # One-Shot Image Recognition Using Siamese Networks
 
 Conventionally, deep neural networks have been really good at learning from high dimensional data like images, audio, and video provided that there are huge amounts of labeled examples to learn from. Comparatively, humans are capable of what is called "one-shot learning". If you show a picture of a ball to a human who has never seen a football (soccer ball for Americans) before, they will probably be able to distinguish footballs from rugby balls, baseballs, basketballs, and so on with high accuracy.
@@ -39,14 +33,14 @@ Unlike normal classification tasks, which consists of classifying each image int
 
 In this case, instead of classifying an image to one of the many classes, we input two images at the same time, and the network outputs whether these images represent the same object or not. The network must have the same weights when transforming each pair of images. This property can be applied to more realistic scenarios like face recognition. 
 
-![traditional_classification](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/traditional.png =800x)
+![traditional_classification](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/traditional.png)
 
 > Traditional way of training a CNN to distinguish the class of an image
 > _Taken from [Oneshot Explanation](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)_
 
 Imagine you have a database with photos of university employees and you want to implement a face unlock functionality in some classrooms. Without one-shot classification you would need to gather hundreds of photos of each employee in order to train a classifier with as many classes as employees. With one-shot learning however, you just need one photo per employee, and two classes: same and different.
 
-![traditional_classification](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/siamese.png =800x)
+![traditional_classification](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/siamese.png)
 
 > In a siamese network we input two images at the same time and output a similarity score between 0 and 1
 > _Taken from [Oneshot Explanation](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)_
@@ -54,7 +48,7 @@ Imagine you have a database with photos of university employees and you want to 
 A straightforward approach would involve creating pairs of images from all the photos of the employees and label those depending on whether they portray the same person. After training, the outcome is a Siamese network capable of distinguishing similar from dissimilar objects, at a much lower cost of data gathering.
 
 ## 2. Siamese Networks
-![si and am](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/si_and_am.png =400x)
+![si and am](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/si_and_am.png)
 
 ### 2.1 Why Siamese Networks?
 Koch et al.'s approach to one-shot classification is to give a network two images and train it to learn whether they belong to the same category. Then when doing a one-shot classification task described above, the network can compare the test image to each image in the support set, and picks which one it thinks is most likely to be of the same category.
@@ -72,7 +66,7 @@ Siamese Nets are designed to have this symmetry property. Symmetry is important 
 Concatenation of the two images may result in the images being convolved with a different set of weights which would break symmetry. Technically it is possible to learn the same weights for both images but there are no guarantees. It would be much easier to learn a single set of  weights applied to both inputs. Then we can propagate both inputs  through identical neural nets with shared parameters and use a distance metric as an input to a linear classifier. This is in essence a Siamese net. Two identical twins, joined at the  head, hence the name.
 
 ### 2.2 Architecture 
-> Unfortunately, properly explaining how and why a CNN would make this post twice as long. If you want to understand CNNs, we suggest checking out cs231n[^cs231n] and then colah[^colah].
+Unfortunately, properly explaining how and why a CNN would make this post twice as long. If you want to understand CNNs, we suggest checking out cs231n[^cs231n] and then colah[^colah].
 
 Koch et al uses a convolutional siamese network (CNN) to classify pairs of images, each of the networks in the pair are CNNs. The twins have the following architecture:
 
@@ -99,7 +93,7 @@ In this section, we describe the setup required to reproduce the paper. You can 
 ### 3.1 Omniglot Dataset
 For training the Siamese network to discern equal from different sets of images, we make use of the Omniglot dataset[^omniglot]. This dataset consists of drawings of characters from 40 different alphabets, some of them real like Bengali, and some of them made up like the Futurama alphabet.
 
-![oneshot_characters](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/characters.png =600x)
+![oneshot_characters](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/characters.png)
 
 > Image showing an example of 8 alphabets of the dataset
 > _Taken from: "Siamese Neural Networks for One-shot Image Recognition"_
@@ -189,14 +183,14 @@ The process we follow is different to the random sampling we did for the creatio
 3. We sample the same character as in step 1 but drawn by anoter drawer
 4. We create pairs of the image sampled in step 1 with all the others sampled in steps 2 and 3
 
-![oneshot_batch_example](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/oneshot_test.png =400x)
+![oneshot_batch_example](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/oneshot_test.png)
 
 > Example of the oneshot task. We compare a reference image to a subset of images of which just one represents the same object but with some changes
 > _Taken from: "Siamese Neural Networks for One-shot Image Recognition"_
 
 This way, we create a batch of N pairs of images, in which only 1 of those is made up of the same character, and the other N-1 are not. We then input these batches into the network and calculate from these which pair was the network more confident about, with this being the chosen class of the classification.
 
-![oneshot_batch](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/20-way-oneshot.png =400x)
+![oneshot_batch](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/20-way-oneshot.png)
 
 > We perform 20 way oneshot classification just like in the paper, here is an example of a batch accompanying a certain image. 
 > We have to check that the `argmax` of the output vector corresponds to the `argmax` of the targets
@@ -323,19 +317,11 @@ We can also see a gradual decrease in size of the images from 1st to 4th layer. 
 
 ## References
 [^one-shot-paper]: Siamese Neural Networks for One-Shot Image Recognition, https://www.cs.cmu.edu/~rsalakhu/papers/oneshot1.pdf
-
 [^cyclical-learning-rates]: Cyclical Learning Rates for Training Neural Networks, available at:https://arxiv.org/abs/1506.01186.
-
 [^adaptive-learning-rates]: Equilibrated adaptive learning rates for non-convex optimization, available at: https://arxiv.org/abs/1502.04390
-
 [^minima-sgd]: Three Factors Influencing Minima in SGD, available at: https://arxiv.org/abs/1711.04623
-
 [^cs231n]: CS231n Convolutional Neural Networks for Visual Recognition, https://cs231n.github.io/convolutional-networks
-
 [^colah]: Convolutional Neural Networks, http://colah.github.io/posts/tags/convolutional_neural_networks.html
-
 [^github]: siamese-nn-oneshot-reproduction, https://github.com/sharwinbobde/siamese-nn-oneshot-reproduction
-
 [^omniglot]: Omniglot Dataset, https://cims.nyu.edu/~brenden/lab-website/resources.html
-
 [^colab]: Google Colaboratory colab.research.google.com/
