@@ -10,6 +10,7 @@ mathjax: true
 Conventionally, deep neural networks have been really good at learning from high dimensional data like images, audio, and video provided that there are huge amounts of labeled examples to learn from. Comparatively, humans are capable of what is called "one-shot learning". If you show a picture of a ball to a human who has never seen a football (soccer ball for Americans) before, they will probably be able to distinguish footballs from rugby balls, baseballs, basketballs, and so on with high accuracy.
 
 ![one shot learning](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/one_shot.png)
+
 <small>Figure depicting a one-shot image recognition task
 _Taken from: Siamese Neural Networks for One-Shot Image Recognition._</small>
 
