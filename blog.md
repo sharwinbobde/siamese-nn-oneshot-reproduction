@@ -55,6 +55,7 @@ Imagine you have a database with photos of university employees and you want to 
 A straightforward approach would involve creating pairs of images from all the photos of the employees and label those depending on whether they portray the same person. After training, the outcome is a Siamese network capable of distinguishing similar from dissimilar objects, at a much lower cost of data gathering.
 
 ## 2. Siamese Networks
+<img src=https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/si_and_am.png width="400"/>
 ![si and am](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/si_and_am.png)
 
 ### 2.1 Why Siamese Networks?
@@ -100,6 +101,7 @@ In this section, we describe the setup required to reproduce the paper. You can 
 ### 3.1 Omniglot Dataset
 For training the Siamese network to discern equal from different sets of images, we make use of the Omniglot dataset[^omniglot]. This dataset consists of drawings of characters from 40 different alphabets, some of them real like Bengali, and some of them made up like the Futurama alphabet.
 
+<img src=https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/characters.png width="400"/>
 ![oneshot_characters](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/characters.png)
 
 > Image showing an example of 8 alphabets of the dataset
@@ -190,6 +192,7 @@ The process we follow is different to the random sampling we did for the creatio
 3. We sample the same character as in step 1 but drawn by anoter drawer
 4. We create pairs of the image sampled in step 1 with all the others sampled in steps 2 and 3
 
+<img src=https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/oneshot_test.png width="400"/>
 ![oneshot_batch_example](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/oneshot_test.png)
 
 > Example of the oneshot task. We compare a reference image to a subset of images of which just one represents the same object but with some changes
@@ -198,6 +201,7 @@ The process we follow is different to the random sampling we did for the creatio
 This way, we create a batch of N pairs of images, in which only 1 of those is made up of the same character, and the other N-1 are not. We then input these batches into the network and calculate from these which pair was the network more confident about, with this being the chosen class of the classification.
 
 ![oneshot_batch](https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/20-way-oneshot.png)
+<img src="https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/20-way-oneshot.png" width="400"/>
 
 > We perform 20 way oneshot classification just like in the paper, here is an example of a batch accompanying a certain image. 
 > We have to check that the `argmax` of the output vector corresponds to the `argmax` of the targets
