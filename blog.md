@@ -6,9 +6,9 @@ mathjax: true
 </header>
 
 ### Authors
-- Diego Albo Martínez
-- Sharwin Bobde
-- Nikhil Saldanha
+- Diego Albo Martinez (5043204) <D.AlboMartinez@student.tudelft.nl>
+- Sharwin Bobde (5011639) <s.p.bobde@student.tudelft.nl>
+- Nikhil Saldanha (4998707) <n.l.saldanha@student.tudelft.nl>
 
 # One-Shot Image Recognition Using Siamese Networks
 
