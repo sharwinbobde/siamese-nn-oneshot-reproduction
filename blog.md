@@ -104,7 +104,7 @@ In the one-shot task, the network simply classifies the test image as whatever i
 In this section, we describe the setup required to reproduce the paper. You can find the code on our GitHub page[^github].
 
 ### 3.1 Omniglot Dataset
-For training the Siamese network to discern equal from different sets of images, we make use of the Omniglot dataset[^omniglot]. This dataset consists of drawings of characters from 40 different alphabets, some of them real like Bengali, and some of them made up like the Futurama alphabet.
+For training the Siamese network to discern equal from different sets of images, we make use of the Omniglot dataset[^omniglot]. This dataset consists of drawings of characters from 50 different alphabets, some of them real like Bengali, and some of them made up like the Futurama alphabet.
 
 <img src="https://raw.githubusercontent.com/sharwinbobde/siamese-nn-oneshot-reproduction/gh-pages/images/characters.png" width="400"/>
 
@@ -237,7 +237,7 @@ As can be seen, our network does however lack some accuracy when compared to the
 We decided to choose random characters from different alphabets since to our judgement that is more of a real-world oneshot task, but limiting it to the alphabet scope might increase performance
 2. In the 20-way oneshot task, only 1/20 or 5% of results have the label "same" compared to the 50% used during training. This change of label distribution could affect the network negatively and prevent it from performing as well in the task
 3. The quality of the drawings. As can be seen in the images below, some of the drawers are quite sloppy with the way the draw some characters. By choosing a couple of drawers that do a good job of faithfully reproducing letters we could avoid some cases as the one below and get better accuracy
-4. The model used by the authors in this task was the one trained on 1.35M images after affine distortions, whereas we used the most accurate one we could train at 270k images. Despite the original performance difference in the verification task not being very big, this considerable difference in training dataset size could make a big difference in the one-shot task.
+4. The model used by the authors in this task was the one trained on 1.35M images after affine distortions, whereas we used the most accurate one we could train at 270k images. Despite the original performance difference in the verification task not being very big, this considerable difference in training dataset size could make a big difference in the one-shot task
 
 Nevertheless in many of the cases the network classifies all of the pairs correctly, and most mistakes involve a single image that is falsely classified as same with more confidence than the true image.
 
