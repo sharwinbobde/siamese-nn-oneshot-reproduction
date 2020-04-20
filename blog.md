@@ -117,7 +117,7 @@ Each alphabet can have a different number of letters in it, and each letter is d
 
 The authors of the paper and us in accordance divide the dataset into three different sets:
 
-- **Training set**: Consisting of 20 alphabets and 12 out of the 20 drawers or alternative representations of each character
+- **Training set**: Consisting of 30 alphabets and 12 out of the 20 drawers or alternative representations of each character
 - **Evaluation set**: Consisting of 10 of the remaining alphabets and 4 out of the remaining drawers
 - **Test set**: Consisting of the remaining 10 alphabets and 4 drawers
 
@@ -237,6 +237,7 @@ As can be seen, our network does however lack some accuracy when compared to the
 We decided to choose random characters from different alphabets since to our judgement that is more of a real-world oneshot task, but limiting it to the alphabet scope might increase performance
 2. In the 20-way oneshot task, only 1/20 or 5% of results have the label "same" compared to the 50% used during training. This change of label distribution could affect the network negatively and prevent it from performing as well in the task
 3. The quality of the drawings. As can be seen in the images below, some of the drawers are quite sloppy with the way the draw some characters. By choosing a couple of drawers that do a good job of faithfully reproducing letters we could avoid some cases as the one below and get better accuracy
+4. The model used by the authors in this task was the one trained on 1.35M images after affine distortions, whereas we used the most accurate one we could train at 270k images. Despite the original performance difference in the verification task not being very big, this considerable difference in training dataset size could make a big difference in the one-shot task.
 
 Nevertheless in many of the cases the network classifies all of the pairs correctly, and most mistakes involve a single image that is falsely classified as same with more confidence than the true image.
 
